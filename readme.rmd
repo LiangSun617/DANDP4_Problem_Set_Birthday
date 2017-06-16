@@ -65,7 +65,7 @@ ggsave('birthHistogram.png')
 table(birthday$month)
 ```
 
-<img src="images/birthHistogram.png" width="500">
+<img src="images/birthHistogram.png" width="600">
 
 ![months](/images/5.png)
 
@@ -97,7 +97,7 @@ qplot(x = Month, data = daymonth) +
     coord_cartesian(ylim = c(20, 32))
 ggsave('uniqueHistogram.png')
 ```  
-<img src="images/uniqueHistogram.png" width="500">
+<img src="images/uniqueHistogram.png" width="600">
 
 
 - Which day of the year has the most number of birthdays?
