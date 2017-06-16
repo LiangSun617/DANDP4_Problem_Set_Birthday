@@ -1,0 +1,119 @@
+### My Friends' Birthdays
+#### Author: Liang Sun
+#### Date: June 15, 2017
+---
+
+Task: investigate the distribution of your friends' birth months and days using birthday example data.
+
+#### 1.Preparing data
+Read the file and take an overview of the data:
+```{r}
+birthday <- read.csv('birthdaysExample.csv', header = TRUE)
+head(birthday)
+summary(birthday)
+```
+![head](/images/1.png)
+
+![sum](/images/2.png)
+
+The dates are written in string format. Extract the birth months and birth days using strptime():
+
+```{r}
+birthday$betterdates <- strptime(birthday$dates, "%m/%d/%y")
+birthday$month <- format(birthday$betterdates, '%m')
+birthday$day <- format(birthday$betterdates, '%d')
+birthday$year <- format(birthday$betterdates, '%y')
+
+unique(birthday$year)
+```
+![year](/images/3.png)
+
+There are only one value for the year in this birthday data. All observations were born in the year of 2014.
+
+#### 2.Exploring data
+
+- How many people share your birthday? Do you know them? (Reserve time with them or save money to buy them a gift!)
+
+  My birthday is on June 17th, so I checked if and how many people have same birthday as mine in the data:
+
+```{r}
+mybirthday <- birthday[which(birthday$month == 6
+                             & birthday$day == 17),]
+nrow(mybirthday)
+```
+![mybir](/images/4.png)
+
+The answer is that no one shared my birthday in the data.
+
+
+- Which month contains the most number of birthdays?
+
+  This question is a little ambiguous. Does it mean to find the most number of observations or the most number of unique birthdays among all months? I decide to check both.
+
+  First, to find the month with most number of observations no matter whether they share birthdays:
+
+```{r}
+#Change month into a factor
+birthday$month <- as.factor(birthday$month)
+birthday$day <- as.factor(birthday$day)
+
+library(ggplot2)
+qplot(x = month, data = birthday) +
+  coord_cartesian(ylim = c(70, 100))  
+ggsave('birthHistogram.png')
+
+table(birthday$month)
+```
+![plot](/images/birthHistogram.png)
+
+![months](/images/5.png)
+
+It is clear that March has most number of people.
+
+  Second, to find the month with most number of unique birthdays:
+
+  ```{r}
+  # Create a new data frame that contains the count of birthdays by month
+  daymonth <- as.data.frame(table(birthday$day, birthday$month))
+  # Rename the columns in the new data frame
+  colnames(daymonth)[1] <- 'Date'
+  colnames(daymonth)[2] <- 'Month'
+  # Drop 0 values of frequency
+  daymonth <- daymonth[daymonth$Freq != 0, ]  
+  # Show number of unique birthdays of each month
+  table(daymonth$Month)
+  ```  
+![unique](/images/6.png)
+
+From this table, we see that January, July and October have most number of unique birthdays.
+
+- How many birthdays are in each month?
+
+  The exact results can be found in the table above. It is also shown in the graph below:
+```{r}
+qplot(x = Month, data = daymonth) +
+    coord_cartesian(ylim = c(20, 32))
+ggsave('uniqueHistogram.png')
+```  
+![uniplot](/images/uniqueHistogram.png)
+
+
+- Which day of the year has the most number of birthdays?
+
+```{r}
+max_birthday <- daymonth[daymonth$Freq == max(daymonth$Freq),]
+```
+![max](/images/7.png)
+
+The most popular birthdays are February 6, May 22, and July 16. All of them appear 8 times in the data.
+
+- Do you have at least 365 friends that have birthdays on everyday of the year?
+
+```{r}
+table(daymonth$Month)
+```
+![unique](/images/6.png)
+
+We can see that not every day of every months is a birthday. Only January, July, September and October have birthdays on each day.
+
+Therefore, I do not have 365 friends that have birthdays on every day of the year.
