@@ -50,7 +50,7 @@ The answer is that no one shared my birthday in the data.
 
   This question is a little ambiguous. Does it mean to find the most number of observations or the most number of unique birthdays among all months? I decide to check both.
 
-  First, to find the month with most number of observations no matter whether they share birthdays:
+  First, to find the month with the most number of observations no matter whether they share birthdays:
 
 ```{r}
 #Change month into a factor
@@ -68,9 +68,9 @@ table(birthday$month)
 
 ![months](/images/5.png)
 
-It is clear that March has most number of people.
+It is clearly shown that March has the most number of people with birthdays in the month.
 
-  Second, to find the month with most number of unique birthdays:
+  Second, to find the month with the most number of unique birthdays:
 
   ```{r}
   # Create a new data frame that contains the count of birthdays by month
@@ -80,12 +80,12 @@ It is clear that March has most number of people.
   colnames(daymonth)[2] <- 'Month'
   # Drop 0 values of frequency
   daymonth <- daymonth[daymonth$Freq != 0, ]  
-  # Show number of unique birthdays of each month
+  # Show the number of unique birthdays of each month
   table(daymonth$Month)
   ```  
 ![unique](/images/6.png)
 
-From this table, we see that January, July and October have most number of unique birthdays.
+From this table, we see that January, July and October have the most number of unique birthdays.
 
 - How many birthdays are in each month?
 
