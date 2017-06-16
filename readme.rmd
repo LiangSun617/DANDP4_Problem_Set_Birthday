@@ -64,7 +64,8 @@ ggsave('birthHistogram.png')
 
 table(birthday$month)
 ```
-![plot](/images/birthHistogram.png)
+
+<img src="images/birthHistogram.png" width="500">
 
 ![months](/images/5.png)
 
@@ -90,12 +91,13 @@ From this table, we see that January, July and October have the most number of u
 - How many birthdays are in each month?
 
   The exact results can be found in the table above. It is also shown in the graph below:
+
 ```{r}
 qplot(x = Month, data = daymonth) +
     coord_cartesian(ylim = c(20, 32))
 ggsave('uniqueHistogram.png')
 ```  
-![uniplot](/images/uniqueHistogram.png)
+<img src="images/uniqueHistogram.png" width="500">
 
 
 - Which day of the year has the most number of birthdays?
